@@ -121,8 +121,10 @@ export default function Wheel({ shotguns, onResult, disabled }: WheelProps) {
           });
           setTimeout(() => {
             setShowReveal(true);
-            onResult(winner);
           }, 800);
+          setTimeout(() => {
+            onResult(winner);
+          }, 4000);
         }, 300);
       }
     }

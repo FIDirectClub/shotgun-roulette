@@ -29,6 +29,7 @@ export default async function StationPage() {
 
   return (
     <StationClient
+      key={`${state.stage}-${state.participantIndex}`}
       competition={competition}
       state={state}
       shotguns={shotguns}

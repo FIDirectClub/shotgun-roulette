@@ -68,7 +68,7 @@ export default function Wheel({ shotguns, onResult, disabled }: WheelProps) {
         : randomOffset;
 
     const targetRotation = rotation + fullRotations + finalOffset;
-    const duration = 4000 + Math.random() * 2000;
+    const duration = 2500 + Math.random() * 1500;
     const startRotation = rotation;
     const startTime = performance.now();
 
@@ -124,7 +124,7 @@ export default function Wheel({ shotguns, onResult, disabled }: WheelProps) {
           }, 800);
           setTimeout(() => {
             onResult(winner);
-          }, 4000);
+          }, 2800);
         }, 300);
       }
     }

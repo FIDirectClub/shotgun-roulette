@@ -34,6 +34,7 @@ export async function getCompetition(): Promise<Competition | null> {
 export async function createCompetition(
   name: string,
   numStages: number,
+  shotsPerStage: number,
   participantNames: string[]
 ): Promise<Competition> {
   const id = `comp_${Date.now()}`;
@@ -42,6 +43,7 @@ export async function createCompetition(
     name,
     status: "active",
     numStages,
+    shotsPerStage,
     participants: participantNames.map((pName, i) => ({
       id: `p_${i}_${Date.now()}`,
       name: pName,
@@ -89,8 +91,7 @@ export async function setWheelResult(shotgunId: string): Promise<void> {
 }
 
 export async function recordScore(
-  shot1: boolean,
-  shot2: boolean
+  shots: boolean[]
 ): Promise<void> {
   const comp = await getCompetition();
   if (!comp) return;
@@ -104,8 +105,7 @@ export async function recordScore(
     participantId: participant.id,
     stage: state.stage,
     shotgunId: state.shotgunId,
-    shot1,
-    shot2,
+    shots,
   });
 
   await redis.set(`scores:${comp.id}`, scores);

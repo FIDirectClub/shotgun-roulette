@@ -11,12 +11,14 @@ export default function LeaderboardTable({
   participants,
   shotguns,
   numStages,
+  shotsPerStage,
   stats,
 }: {
   scores: ScoreEntry[];
   participants: Participant[];
   shotguns: Shotgun[];
   numStages: number;
+  shotsPerStage: number;
   stats: FunStats;
 }) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -26,10 +28,10 @@ export default function LeaderboardTable({
     .map((p) => {
       const pScores = scores.filter((s) => s.participantId === p.id);
       const totalHits = pScores.reduce(
-        (sum, s) => sum + (s.shot1 ? 1 : 0) + (s.shot2 ? 1 : 0),
+        (sum, s) => sum + s.shots.filter(Boolean).length,
         0
       );
-      const totalShots = pScores.length * 2;
+      const totalShots = pScores.reduce((sum, s) => sum + s.shots.length, 0);
       return { ...p, totalHits, totalShots, pScores };
     })
     .sort((a, b) => b.totalHits - a.totalHits);
@@ -91,8 +93,7 @@ export default function LeaderboardTable({
                               </div>
                             );
                           }
-                          const total =
-                            (stageScore.shot1 ? 1 : 0) + (stageScore.shot2 ? 1 : 0);
+                          const total = stageScore.shots.filter(Boolean).length;
                           return (
                             <div
                               key={stageIdx}
@@ -103,14 +104,15 @@ export default function LeaderboardTable({
                                 {getShotgunName(stageScore.shotgunId)}
                               </p>
                               <p className="font-bold mt-1">
-                                <span className={stageScore.shot1 ? "text-green-400" : "text-red-400"}>
-                                  {stageScore.shot1 ? "H" : "M"}
-                                </span>
-                                {" "}
-                                <span className={stageScore.shot2 ? "text-green-400" : "text-red-400"}>
-                                  {stageScore.shot2 ? "H" : "M"}
-                                </span>
-                                <span className="text-gray-400 ml-2">({total}/2)</span>
+                                {stageScore.shots.map((hit, si) => (
+                                  <span key={si}>
+                                    <span className={hit ? "text-green-400" : "text-red-400"}>
+                                      {hit ? "H" : "M"}
+                                    </span>
+                                    {si < stageScore.shots.length - 1 ? " " : ""}
+                                  </span>
+                                ))}
+                                <span className="text-gray-400 ml-2">({total}/{stageScore.shots.length})</span>
                               </p>
                             </div>
                           );
@@ -134,7 +136,7 @@ export default function LeaderboardTable({
               <p className="text-sm text-gray-400 uppercase tracking-wide">Best Shotgun</p>
               <p className="text-xl font-bold text-green-400">{stats.bestShotgun.name}</p>
               <p className="text-sm text-gray-400">
-                Avg: {stats.bestShotgun.avg.toFixed(1)}/2
+                Avg: {stats.bestShotgun.avg.toFixed(1)}/{shotsPerStage}
               </p>
             </div>
           )}
@@ -143,7 +145,7 @@ export default function LeaderboardTable({
               <p className="text-sm text-gray-400 uppercase tracking-wide">Worst Shotgun</p>
               <p className="text-xl font-bold text-red-400">{stats.worstShotgun.name}</p>
               <p className="text-sm text-gray-400">
-                Avg: {stats.worstShotgun.avg.toFixed(1)}/2
+                Avg: {stats.worstShotgun.avg.toFixed(1)}/{shotsPerStage}
               </p>
             </div>
           )}

@@ -31,7 +31,7 @@ export function calculateStats(
   const shotgunScores: Record<string, number[]> = {};
   for (const s of scores) {
     if (!shotgunScores[s.shotgunId]) shotgunScores[s.shotgunId] = [];
-    shotgunScores[s.shotgunId].push((s.shot1 ? 1 : 0) + (s.shot2 ? 1 : 0));
+    shotgunScores[s.shotgunId].push(s.shots.filter(Boolean).length);
   }
 
   let bestShotgun: FunStats["bestShotgun"] = null;
@@ -54,7 +54,7 @@ export function calculateStats(
       .sort((a, b) => a.stage - b.stage);
     const shots: boolean[] = [];
     for (const s of pScores) {
-      shots.push(s.shot1, s.shot2);
+      shots.push(...s.shots);
     }
 
     let hitStreak = 0;
@@ -108,8 +108,8 @@ export function calculateStats(
   const shutoutStages: FunStats["shutoutStages"] = [];
   for (const p of participants) {
     const pScores = scores.filter((s) => s.participantId === p.id);
-    const perfect = pScores.filter((s) => s.shot1 && s.shot2).length;
-    const shutout = pScores.filter((s) => !s.shot1 && !s.shot2).length;
+    const perfect = pScores.filter((s) => s.shots.every(Boolean)).length;
+    const shutout = pScores.filter((s) => s.shots.every((sh) => !sh)).length;
     if (perfect > 0) perfectStages.push({ participantName: p.name, count: perfect });
     if (shutout > 0) shutoutStages.push({ participantName: p.name, count: shutout });
   }

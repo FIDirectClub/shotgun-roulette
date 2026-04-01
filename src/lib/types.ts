@@ -13,6 +13,7 @@ export interface Competition {
   name: string;
   status: "setup" | "active" | "completed";
   numStages: number;
+  shotsPerStage: number;
   participants: Participant[];
   createdAt: string;
 }
@@ -21,8 +22,7 @@ export interface ScoreEntry {
   participantId: string;
   stage: number;
   shotgunId: string;
-  shot1: boolean;
-  shot2: boolean;
+  shots: boolean[];
 }
 
 export interface CompetitionState {

@@ -17,6 +17,7 @@ export default function CompetitionForm({
 }) {
   const [name, setName] = useState("");
   const [numStages, setNumStages] = useState(5);
+  const [shotsPerStage, setShotsPerStage] = useState(2);
   const [participantText, setParticipantText] = useState("");
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function CompetitionForm({
       .filter(Boolean);
     if (!name.trim() || names.length === 0 || numStages < 1) return;
     startTransition(async () => {
-      await createCompetition(name.trim(), numStages, names);
+      await createCompetition(name.trim(), numStages, shotsPerStage, names);
       router.refresh();
     });
   }
@@ -63,6 +64,9 @@ export default function CompetitionForm({
           </p>
           <p>
             <span className="text-gray-400">Stages:</span> {competition.numStages}
+          </p>
+          <p>
+            <span className="text-gray-400">Shots per stage:</span> {competition.shotsPerStage}
           </p>
           <p>
             <span className="text-gray-400">Participants:</span>{" "}
@@ -107,6 +111,17 @@ export default function CompetitionForm({
             onChange={(e) => setNumStages(parseInt(e.target.value) || 1)}
             min={1}
             max={50}
+            className="w-32 bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">Shots per Stage</label>
+          <input
+            type="number"
+            value={shotsPerStage}
+            onChange={(e) => setShotsPerStage(parseInt(e.target.value) || 1)}
+            min={1}
+            max={10}
             className="w-32 bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
           />
         </div>

@@ -28,7 +28,7 @@ export default async function LeaderboardPage() {
         <h1 className="text-3xl font-extrabold">{competition.name}</h1>
         <p className="text-gray-400">
           {competition.participants.length} shooters &middot;{" "}
-          {competition.numStages} stages &middot;{" "}
+          {competition.numStages} stages &middot; {competition.shotsPerStage} shots/stage &middot;{" "}
           <span
             className={
               competition.status === "completed"
@@ -45,6 +45,7 @@ export default async function LeaderboardPage() {
         participants={competition.participants}
         shotguns={shotguns}
         numStages={competition.numStages}
+        shotsPerStage={competition.shotsPerStage}
         stats={stats}
       />
     </div>

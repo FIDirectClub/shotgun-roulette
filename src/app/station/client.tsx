@@ -60,6 +60,7 @@ export default function StationClient({
         <ScoreEntry
           participantName={currentParticipant.name}
           shotgunName={selectedShotgun.name}
+          shotsPerStage={competition.shotsPerStage}
         />
       )}
     </div>

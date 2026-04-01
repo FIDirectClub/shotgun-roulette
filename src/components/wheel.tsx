@@ -188,33 +188,18 @@ export default function Wheel({ shotguns, onResult, disabled }: WheelProps) {
                 stroke="#1f2937"
                 strokeWidth="1"
               />
-              {useRadialText ? (
-                <text
-                  fill="#111"
-                  fontSize={n > 10 ? "8" : "9.5"}
-                  fontWeight="900"
-                  textAnchor="start"
-                  stroke="white"
-                  strokeWidth="2.5"
-                  paintOrder="stroke"
-                  transform={`translate(150,150) rotate(${textRotation - 90}) translate(32,4)`}
-                >
-                  {sg.name}
-                </text>
-              ) : (
-                <text
-                  fill="#111"
-                  fontSize="14"
-                  fontWeight="900"
-                  textAnchor="middle"
-                  stroke="white"
-                  strokeWidth="3"
-                  paintOrder="stroke"
-                  transform={`translate(150,150) rotate(${textRotation - 90}) translate(80,5)`}
-                >
-                  {sg.name}
-                </text>
-              )}
+              <text
+                fill="white"
+                fontSize={useRadialText ? (n > 10 ? "8" : "9.5") : "12"}
+                fontWeight="900"
+                textAnchor="start"
+                stroke="#000"
+                strokeWidth={useRadialText ? "2.5" : "3.5"}
+                paintOrder="stroke"
+                transform={`translate(150,150) rotate(${textRotation - 90}) translate(35,4)`}
+              >
+                {sg.name}
+              </text>
             </g>
           );
         })}

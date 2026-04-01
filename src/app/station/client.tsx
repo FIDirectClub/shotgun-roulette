@@ -35,18 +35,18 @@ export default function StationClient({
     <div className="flex flex-col items-center gap-6">
       {/* Status bar */}
       <div className="flex flex-wrap gap-4 justify-center">
-        <div className="bg-gray-800 px-6 py-3 rounded-xl text-center">
+        <div className="bg-gray-800 border border-gray-600 px-6 py-3 rounded-xl text-center">
           <p className="text-xs text-gray-400 uppercase tracking-wide">Shooter</p>
           <p className="text-xl font-bold">{currentParticipant.name}</p>
         </div>
-        <div className="bg-gray-800 px-6 py-3 rounded-xl text-center">
+        <div className="bg-gray-800 border border-gray-600 px-6 py-3 rounded-xl text-center">
           <p className="text-xs text-gray-400 uppercase tracking-wide">Stage</p>
           <p className="text-xl font-bold">
             {state.stage} of {competition.numStages}
           </p>
         </div>
         {selectedShotgun && (
-          <div className="bg-gray-800 px-6 py-3 rounded-xl text-center">
+          <div className="bg-gray-800 border border-gray-600 px-6 py-3 rounded-xl text-center">
             <p className="text-xs text-gray-400 uppercase tracking-wide">Shotgun</p>
             <p className="text-xl font-bold text-amber-400">{selectedShotgun.name}</p>
           </div>
